@@ -7,7 +7,7 @@ function App() {
       <p className="text-center text-2xl font-serif my-5 text-gray-400">
         Chai Aur Redux
       </p>
-      <div>
+      <div className="container mx-auto">
       <AddTodo />
       <Todo />
       </div>
