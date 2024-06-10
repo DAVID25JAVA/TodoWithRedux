@@ -1,21 +1,48 @@
 import { useSelector, useDispatch } from "react-redux";
-import {removeTodo} from '../features/TodoSlice.js'
+import {
+  removeTodo,
+  updateTodo,
+  toggleCompleted,
+} from "../features/TodoSlice.js";
 
 function Todo() {
   const todos = useSelector((state) => state.todos);
+  console.log(todos);
   const dispatch = useDispatch();
+
+  const handleTextChange = (id, newText) => {
+    dispatch(updateTodo({ id, text: newText }));
+  };
 
   return (
     <>
-      
       <ul className="list-none">
         {todos.map((todo) => (
           <li
-            className="mt-4 flex justify-between items-center bg-zinc-800 px-4 py-2 rounded"
+            className="mt-4 flex justify-between gap-2 items-center bg-zinc-800 px-4 py-2 rounded"
             key={todo.id}
           >
-            <div className="text-white">{todo.text}</div>
-            <button type=""
+            <input
+              type="text"
+              className={`border outline-none w-full bg-transparent rounded-lg text-white ${
+                todo.completed ? "border-black/10 px-2" : "border-transparent"
+              }`}
+              value={todo.text}
+              onChange={(e) => handleTextChange(todo.id, e.target.value)}
+              disabled={!todo.completed}
+            />
+
+            <button
+              onClick={() => dispatch(toggleCompleted(todo.id))}
+              className={`text-white ${
+                todo.completed ? "bg-green-500" : "bg-red-500"
+              } border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded text-md`}
+            >
+              {todo.completed ? "📁" : "📝"}
+            </button>
+
+            <button
+              type=""
               onClick={() => dispatch(removeTodo(todo.id))}
               className="text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded text-md"
             >
